@@ -7,16 +7,8 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if extension == 0
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % Basic service and service component definition        %
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        done = 0;
-        idx = 1;
-        while (done == 0)
-            
-            
-            done = 1;
-        end
+        
+        
         
     elseif extension == 1
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,7 +17,6 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
         done = 0;
         idx = 1;
         while (done == 0)
-            disp(idx)
             %Read header of packet to get sizing
             subchld = field(idx:idx+5);
             start_address = field(idx+6:idx+15);
@@ -205,6 +196,26 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
             end
         end
     elseif extension == 9
+        disp(field)
+        ext_flag = bi2de(field(1),'left-msb');
+        lto_unique = field(2);
+        ensemble_lto = field(3:8);
+        ensemble_ecc = field(9:16);
+        inter_table = field(17:24);
+        if(ext_flag == 1)
+            ext_field = field(25:end);
+            
+            %Process sub-data
+            
+        end
+        
+        %Process data
+        time = 0;
+        if(lto_unique == 0)
+            
+        else 
+            
+        end
         
     elseif extension == 10
         disp(['Extension ' num2str(extension) ' is currently unhandled, need to look at analysing the data'])        

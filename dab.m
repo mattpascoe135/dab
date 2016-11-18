@@ -1,7 +1,7 @@
 clear
 close all
 
-threshold = 0.1; start = 1;
+threshold = 0.06; start = 1;
 cp_len = 100;
 sig_lengt = 2048;
 
@@ -17,6 +17,11 @@ sigEnd =        sigStart + 76*2552;
 start=sigEnd;
 frame = x(sigStart:sigEnd);
 frame = frame(1:(floor(length(frame)/76)*76));
+
+% frame = locate_frame(x,start,threshold);
+
+% plot(abs(x).^2)
+% plot(abs(x.^2))
 
 %Obtain symbols from OFDM
 mat = transpose(reshape(frame, length(frame)/76, 76));
