@@ -29,7 +29,12 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
                 table_index = data(2:end);
                 
                 %Perform updates
-                
+                if(switch_table == 0)
+                    [sub_channel_size, protection_level, bit_rate] = process_table6(table_index);
+                    disp(['Channel size: ' num2str(sub_channel_size) ', Protection level: ' num2str(protection_level) ', Bit-rate: ' num2str(bit_rate) 'kbit/s']);
+                else
+                    disp('Reserved fro future use of table index field');
+                end                
                 idx = idx+17+7; 
             else
                 data = field(idx+17:idx+17+14);
@@ -196,7 +201,6 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
             end
         end
     elseif extension == 9
-        disp(field)
         ext_flag = bi2de(field(1),'left-msb');
         lto_unique = field(2);
         ensemble_lto = field(3:8);
@@ -212,7 +216,7 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
         %Process data
         time = 0;
         if(lto_unique == 0)
-            
+            process_region(ensemble_ecc, inter_table);
         else 
             
         end
