@@ -18,10 +18,11 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
         idx = 1;
         while (done == 0)
             %Read header of packet to get sizing
-            subchld = field(idx:idx+5);
+            subchld = bi2de(field(idx:idx+5),'left-msb');
             start_address = field(idx+6:idx+15);
             shortlong = field(idx+16);
             
+            disp(['Sub-channel Identifier: ' num2str(subchld)]);
             %0 = short, 1 = long
             if shortlong == 0
                 data = field(idx+17:idx+17+6);
@@ -38,11 +39,50 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
                 idx = idx+17+7; 
             else
                 data = field(idx+17:idx+17+14);
-                option = data(1:3);
-                proection_lvl = data(4:5);
-                subchannel_size = data(6:end);
+                option = bi2de(data(1:3),'left-msb');
+                protection_lvl = bi2de(data(4:5),'left-msb');
+                subchannel_size = bi2de(data(6:end),'left-msb');
                 
                 %Perform updates
+                if(option == 1)
+                    if (protection_lvl == 0)
+                        disp('Protection level: 1-B')
+                        disp('Convolutional coding rate: 4/9')
+                        disp('Sub-channel size (CUs): 27 n')
+                    elseif (protection_lvl == 1)
+                        disp('Protection level: 2-B')
+                        disp('Convolutional coding rate: 4/7')
+                        disp('Sub-channel size (CUs): 21 n')
+                    elseif (protection_lvl == 2)
+                        disp('Protection level: 3-B')
+                        disp('Convolutional coding rate: 4/6')
+                        disp('Sub-channel size (CUs): 18 n')
+                    elseif (protection_lvl == 3)
+                        disp('Protection level: 4-A')
+                        disp('Convolutional coding rate: 4/5')
+                        disp('Sub-channel size (CUs): 15 n')
+                    end
+                elseif(option == 0)
+                    if (protection_lvl == 0)
+                        disp('Protection level: 1-A')
+                        disp('Convolutional coding rate: 1/4')
+                        disp('Sub-channel size (CUs): 12 n')
+                    elseif (protection_lvl == 1)
+                        disp('Protection level: 2-A')
+                        disp('Convolutional coding rate: 3/8')
+                        disp('Sub-channel size (CUs): 8 n')
+                    elseif (protection_lvl == 2)
+                        disp('Protection level: 3-A')
+                        disp('Convolutional coding rate: 1/2')
+                        disp('Sub-channel size (CUs): 6 n')
+                    elseif (protection_lvl == 3)
+                        disp('Protection level: 4-A')
+                        disp('Convolutional coding rate: 3/4')
+                        disp('Sub-channel size (CUs): 4 n')
+                    end 
+                else
+                    disp('Error in OPTION packet')
+                end
                 
                 idx = idx+17+15;                 
             end

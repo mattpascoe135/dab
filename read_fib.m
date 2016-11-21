@@ -6,7 +6,6 @@ function [ output ] = read_fib( fig_data )
         %analyse the data
         found = 0;    
         iidx = 1;
-        disp(['idx is at: ' num2str(idx)])    
         while((found==0))
             header = fig(iidx:iidx+7);
             if(bi2de(header) == 255)
@@ -16,7 +15,6 @@ function [ output ] = read_fib( fig_data )
             else
                 type = bi2de(header(1:3),'left-msb');
                 length = 8 * bi2de(header(4:end),'left-msb');
-                disp(['Length is ' num2str(length)])
 
                 if(type == 0)
                     disp('Type 0 Packet')
@@ -40,10 +38,15 @@ function [ output ] = read_fib( fig_data )
                     %Deconstruct packet
                     charset = data(1:4);
                     oe = data(5);
-                    extension = data(6:8);
+                    extension = bi2de(data(6:8),'left-msb');
                     field = data(9:end);
+                    
+                    indentifier_field = field(1:end-(16+16*8));
+                    character_field = bintostring(field((end-(16+16*8)+1):end-16));
+                    character_flag_field = field(end-15:end);
 
-                    %Analyse data
+                    %Process data
+                    process_type1(charset, oe, extension, indentifier_field, character_field, character_flag_field);
                     
                     
                     iidx = iidx+8+length;
