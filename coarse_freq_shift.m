@@ -34,7 +34,7 @@ function [ output ] = coarse_freq_shift(x,threshold)
     end    
     sig_end = sig_start + 1536;
     
-    disp(['Starts at: ' num2str(sig_start) ', ends at: ' num2str(sig_end)]);
+%     disp(['Starts at: ' num2str(sig_start) ', ends at: ' num2str(sig_end)]);
     output = data(sig_start:sig_end);
 end
 

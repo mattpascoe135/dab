@@ -11,7 +11,7 @@ x = read_complex_byte('dab2-B.bin');
 plot(1:length(x), abs(x));
 
 
-for iteration = 1:1
+for iteration = 1:5
     disp(['Iteration ' num2str(iteration)])
     %Locate frame
     high = 0.05;
@@ -25,14 +25,14 @@ for iteration = 1:1
     tfft = mat(:, 101:2047+101);
 
     for idx = 1:76
-        data(idx, :) = fft(tfft(idx, :));
-        data(idx, :) = fftshift(data(idx, :));
+        tmpdata = fft(tfft(idx, :));
+        freqshift_data(idx, :) = fftshift(tmpdata);
 
         %Use moving average to locate the nulls and actual data to do coarse
         %frequency shift instead of hardcoding.
     %     symbol(idx,:) = data(idx, 257:257+1536);    
         thres = 5;
-        symbol(idx,:) = coarse_freq_shift(data(idx, :), thres);
+        symbol(idx,:) = coarse_freq_shift(freqshift_data(idx, :), thres);
     end
 
     %Remove differnetial coding
