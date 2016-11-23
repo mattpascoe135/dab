@@ -97,6 +97,11 @@ function [ output ] = read_fib( fig_data )
                     disp('ERROR: FIG type no. error') 
                 end
             end
+            
+            %Check if at the end of packet
+            if(iidx >= 240)
+                found = 1;
+            end
         end
     end
 end

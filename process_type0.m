@@ -7,7 +7,7 @@ function [ output_args ] = process_type0( cn, oe, pd, extension, field )
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if extension == 0
-        
+        size( field)
         
         
     elseif extension == 1
